@@ -7,16 +7,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-  /* Cacher la sidebar sur petits écrans */
+  /* ===============================
+   MOBILE SIDEBAR FIX
+================================ */
 @media screen and (max-width: 768px) {
-    .sidebar {
-        display: none; /* cache complètement la sidebar */
+    nav {
+        display: none; /* cache le menu sur mobile */
     }
 
     .content {
-        margin-left: 0; /* occupe tout l’espace */
+        flex: 1;
+        margin-left: 0; /* occupe toute la largeur */
     }
 }
+
 
 /* ===============================
    GLOBAL
