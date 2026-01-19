@@ -9,7 +9,20 @@
   /* ===============================
    MOBILE SIDEBAR FIX
 ================================ */
+@media screen and (max-width: 768px) {
+    nav {
+        display: none; /* cache le menu sur mobile */
+    }
 
+    .content {
+        flex: 1;
+        margin-left: 0; /* occupe toute la largeur */
+    }
+}
+body {
+  display: flex;
+  min-height: 100vh;
+}
 /* MOBILE FIX */
 @media screen and (max-width: 768px) {
     body {
@@ -443,7 +456,7 @@ l’auditeur par un preneur de son qui décide de tendre son micro à un endroit
  </p>
 
   <!-- OISEAUX -->
-  <h2 class="section-title" id="oiseaux">Chant d'oiseaux</h2>
+  <h2 class="section-title" id="oiseaux">Chants d'oiseaux</h2>
   <div class="grid">
      <!-- Blongios nain -->
     <div class="sound-card">
