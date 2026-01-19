@@ -20,8 +20,26 @@
         margin-left: 0; /* occupe toute la largeur */
     }
 }
+body {
+  display: flex;
+  min-height: 100vh;
+}
+/* MOBILE FIX */
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column; /* empile le contenu verticalement */
+    }
 
+    nav {
+        display: none; /* cache le menu */
+    }
 
+    main, .content {
+        margin: 0;
+        width: 100%;
+        padding: 20px;
+    }
+}
 /* ===============================
    GLOBAL
 ================================ */
