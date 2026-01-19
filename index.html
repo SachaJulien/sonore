@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sacha Julien — Cueilleur de sons</title>
+<style>
+  
+/* ===============================
+   GLOBAL
+================================ */
+body {
+  margin: 0;
+  font-family: "Inter", "Lato", sans-serif;
+  background-color: #121212;
+  color: #eee;
+  display: flex;
+  min-height: 100vh;
+  letter-spacing: 0.2px;
+}
+
+a {
+  color: #f3b66c;
+  text-decoration: none;
+}
+a:hover { opacity: 0.85; }
+
+/* ===============================
+   SIDEBAR
+================================ */
+nav {
+  width: 220px;
+  background: #1a1a1a;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+nav h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  color: #f3b66c;
+  margin: 30px 0;
+}
+
+.menu-section h3 {
+  font-size: 0.8em;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #f3b66c;
+  margin-bottom: 10px;
+}
+
+.menu-section a {
+  display: block;
+  font-size: 0.9em;
+  margin: 6px 0;
+  color: #eee;
+  opacity: 0.8;
+}
+.menu-section a:hover { opacity: 1; }
+.intro-quote {
+  font-style: italic;
+  font-size: 1.2em;
+  text-align: center;      /* centrer sur la page */
+  color: hsl(0, 0%, 99%);          /* couleur harmonisée avec ton thème */
+  margin: 10px auto 10px;  /* espace avant et après */
+  line-height: 1.5;
+  max-width: 950px;        /* limite la largeur pour lisibilité */
+}
+
+.intro-quote .author {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9em;
+  font-style: normal;      /* on enlève l’italique pour l’auteur */
+  opacity: 0.8;            /* un peu plus discret */
+}
+
+/* ===============================
+   LAYOUT
+================================ */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding: 50px 40px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  background: #1a1a1a;
+  color: #888;
+  font-size: 0.8em;
+}
+
+/* ===============================
+   TITRES
+================================ */
+h1 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  text-align: center;
+  color: #f3b66c;
+  margin: 30px 0;
+}
+
+.section-title {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  font-size: 1.5em;
+  margin: 30px 0 25px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 8px;
+}
+
+/* ===============================
+   GRID & CARTES
+================================ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.sound-card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+}
+
+
+.sound-card h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  font-size: 1.1em;
+  text-align: center;
+  color: #f3b66c;
+  margin-bottom: 14px;
+}
+
+.sound-card iframe {
+  width: 100%;
+  height: 245px;
+  border: none;
+  border-radius: 6px;
+}
+
+.credits {
+  font-size: 0.7em;
+  color: #aaa;
+  text-align: center;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* ===============================
+   FULL WIDTH
+================================ */
+.full-width-loups {
+  width: 80%;
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 26px;
+   max-width: 1100px;
+  margin: 40px auto;
+}
+
+/* ===============================
+   TEXTE & IMAGES
+================================ */
+.atelier-text,
+.bio {
+  font-size: 1.em;
+  line-height: 1.7;
+  text-align: justify;
+  text-justify: inter-word; /* répartit mieux les mots */
+}
+
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+}
+
+.photo-grid img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+.qui-suis-je {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.portrait {
+  width: 220px;
+  border-radius: 14px;
+}
+
+/* ===============================
+   CONTACT
+================================ */
+.contact-section {
+  max-width: 700px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 900px) {
+  body { flex-direction: column; }
+  nav {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  main { padding: 40px 24px; }
+}
+
+@media (max-width: 700px) {
+  .qui-suis-je {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+/* ===== MODE ÉCOUTE IMMERSIVE AUTO ===== */
+
+body.immersive {
+  background-color: #0d0d0d;
+  transition: background-color 0.6s ease;
+}
+
+body.immersive nav {
+  opacity: 0.12;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+body.immersive main > * {
+  opacity: 0.3;
+  transition: opacity 0.6s ease;
+}
+
+.sound-card.immersive-active {
+  opacity: 1 !important;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 0 0 1px rgba(243,182,108,0.25);
+}
+
+/* ===============================
+   FOND FORÊT IMMERSIF
+================================ */
+
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Image de fond */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("images/setup11.jpg"); /* 🌲 image forêt */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.80; /* ← intensité du fond (0.12 à 0.25 conseillé) */
+  z-index: -2;
+}
+
+/* Voile sombre pour lisibilité */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 18, 18, 0.711),
+    rgba(18, 18, 18, 0.923)
+  );
+  z-index: -1;
+}
+
+
+</style>
+</head>
+
+
+
+
+<body>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll('.sound-card');
+
+  cards.forEach(card => {
+    const iframe = card.querySelector('iframe');
+    if (!iframe) return;
+
+    const activate = () => {
+      document.body.classList.add('immersive');
+      cards.forEach(c => c.classList.remove('immersive-active'));
+      card.classList.add('immersive-active');
+      console.log("IMMERSIVE ON");
+    };
+
+    const deactivate = () => {
+      document.body.classList.remove('immersive');
+      card.classList.remove('immersive-active');
+      console.log("IMMERSIVE OFF");
+    };
+
+    iframe.addEventListener('mouseenter', activate);
+    iframe.addEventListener('click', activate);
+    iframe.addEventListener('focus', activate);
+
+    card.addEventListener('mouseleave', () => {
+      setTimeout(deactivate, 1200);
+    });
+  });
+});
+</script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll('.sound-card');
+
+  cards.forEach(card => {
+    const iframe = card.querySelector('iframe');
+    if (!iframe) return;
+
+    const activate = () => {
+      document.body.classList.add('immersive');
+      cards.forEach(c => c.classList.remove('immersive-active'));
+      card.classList.add('immersive-active');
+    };
+
+    const deactivate = () => {
+      document.body.classList.remove('immersive');
+      card.classList.remove('immersive-active');
+    };
+
+    iframe.addEventListener('mouseenter', activate);
+    iframe.addEventListener('click', activate);
+    iframe.addEventListener('focus', activate);
+
+    card.addEventListener('mouseleave', () => {
+      setTimeout(deactivate, 1200);
+    });
+  });
+});
+</script>
+<nav>
+  <h2>Sacha Julien</h2>
+
+  <div class="menu-section">
+    <h3>Prises de son</h3>
+    <a href="#oiseaux">Oiseaux</a>
+    <a href="#Mammifères">Mammifères</a>
+   <a href="#Insectes">Insectes</a>
+
+    <a href ="#Troupeaux">Troupeaux</a>
+    <a href="#Géophonie">Géophonie</a>
+    <a href="#Paysages sonores">Paysages sonores</a>
+
+    <a href="#autres">Anthropophonie</a>
+  </div>
+
+  <div class="menu-section">
+    <h3>Propositions</h3>
+            <a href="#Interventions">Interventions</a>
+
+    <a href="#Ateliers">Ateliers</a>
+
+    <a href="#workshops">Workshops</a>
+    <a href="#installations">Installations</a>
+    
+  </div>
+
+   <div class="menu-section">
+    <h3>A propos</h3>
+      <a href="#qui-suis-je">Qui suis-je</a>
+    <a href="#materiel">Materiel</a>
+    <a href="#contact">Contact</a>
+      </div>
+
+</nav>
+<div class="content">
+<main>
+  <h1>Prises de son - Phonographies - Fragments sonores</h1>
+<p class="intro-quote">
+  « L’enregistrement field recording n’est pas une composition musicale. Il s’agit d’une captation pure et simple de l’environnement sonore. 
+Il offre à l’auditeur une expérience sensorielle qui n’implique que l’ouïe, c’est alors à lui de compléter, par l’attention et l’imagination,
+l’information structurellement incomplète qui lui est proposée. En ce sens, il y a une véritable proposition artistique, une stimulation de 
+l’auditeur par un preneur de son qui décide de tendre son micro à un endroit et un moment donnés»  
+  <span class="author">— Jean-Grégoire Muller</span>
+
+</p>
+
+
+  <p class="intro">
+ </p>
+
+  <!-- OISEAUX -->
+  <h2 class="section-title" id="oiseaux">Chant d'oiseaux</h2>
+  <div class="grid">
+     <!-- Blongios nain -->
+    <div class="sound-card">
+      <h3>Blongios nain au lac du Salagou (Hérault)
+      </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725451/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725451/" target="_blank">Ecouter sur Freesound</a></p>
+      
+    </div>
+
+      <div class="sound-card">
+
+      <h3>Troglodyte mignon - tout proche (Isère)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734533/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734533/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+     <!-- Rossignol -->
+    <div class="sound-card">
+      <h3>Rossignol Philomèle - tout proche (Var)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/724598/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/724598/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+    
+          <!--Pinson des arbres  -->
+    <div class="sound-card">
+      <h3>Pinson des arbres - chrus matinal (Madère)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/724592/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/724592/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+    <div class="sound-card">
+
+      <h3>Merle noir - chorus matinal - Solo (Hérault) </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725332/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725332/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+ <!--Roitelet triple beandeau  -->
+    <div class="sound-card">
+      <h3>Roitelet triple-bandeau (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/724597/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/724597/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+    <!--Pinson des arbres  -->
+    <div class="sound-card">
+      <h3>Pinson des arbres - tout proche (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725218/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725218/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+      <!--Merle noir madeira -->
+    <div class="sound-card">
+      <h3>Merle noir - tout proche (Madère)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725045/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725045/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+        <div class="sound-card">
+
+      <h3>Roitelet triple-bandeau (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725322/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725322/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+       <!--Merle  -->
+    <div class="sound-card">
+      <h3>Merle noir (Madère)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725046/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725046/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+    
+    <!-- Fauvette à tête noire -->
+    <div class="sound-card">
+      <h3>Fauvette à tête noire – chant court (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725333/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725034/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+    <!--Rouge gorge -->
+    <div class="sound-card">
+      <h3>Rouge-gorge - tout proche (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725323/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725323/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+    <!-- Merle noir -->
+    <div class="sound-card">
+      <h3>Merle noir (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725332/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725332/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+    <!-- Rouge-gorge -->
+    <div class="sound-card">
+      <h3>Rouge‑gorge (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725215/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725215/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+  <!--Merle noir madeira -->
+    <div class="sound-card">
+      <h3>Fauvette à tête noire (Hérault)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725045/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725045/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+  </div>
+  <!-- FAUNE SAUVAGE -->
+  <h2 class="section-title" id="Mammifères">Mammifères sauvages</h2>
+
+  <!-- Full-width Loups -->
+
+  
+  <div class="sound-card full-width-loups">
+    <h3>Loups – hurlements spontanés</h3>
+    <iframe src="https://freesound.org/embed/sound/iframe/762242/simple/large/" scrolling="yes"></iframe>
+    <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/762242/" target="_blank">Ecouter sur Freesound</a></p>
+  </div>
+
+  <div class="sound-card full-width-loups">
+    <h3>Brâme du Cerf au coeur du Mercantour</h3>
+    <iframe src="https://freesound.org/embed/sound/iframe/725449/simple/large/" scrolling="yes"></iframe>
+    <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725449/" target="_blank">Ecouter sur Freesound</a></p>
+  </div>
+
+  <!-- Grid normale pour les autres sons de loups -->
+  <div class="grid">
+    <div class="sound-card">
+      <h3>Loups – adultes et jeunes au loin</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/753896/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/753896/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+    <div class="sound-card">
+      <h3>Loups – hurlements induits (humains)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/753893/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/753893/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+      <div class="sound-card">
+      <h3>Aboiements de chevreuil dans la forêt de Saou (Drôme)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/724578/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/724578/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+  </div>
+
+   <!-- Insectes -->
+  <h2 class="section-title" id="Insectes">Insectes</h2>
+  <div class="grid">
+     <!-- Fourmis micro contact -->
+    <div class="sound-card">
+      <h3>Pas de fourmis sur micro contact (Isère)
+      </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734532/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734532/" target="_blank">Ecouter sur Freesound</a></p>
+      
+    </div>
+    <div class="sound-card">
+      <h3>Fourmilière toute proche (Isère)
+      </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734531/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734531/" target="_blank">Ecouter sur Freesound</a></p>
+      
+        </div>
+        </div>
+
+
+  <!-- TROUPEAU -->
+  <h2 class="section-title" id="Troupeaux">Troupeaux</h2>
+
+  <!-- Full-width Loups -->
+  <div class="sound-card full-width-loups">
+    <h3>Passage d'un troupeau en montagne (Mercantour)</h3>
+    <iframe src="https://freesound.org/embed/sound/iframe/759899/simple/large/" scrolling="yes"></iframe>
+    <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/759899/" target="_blank">Ecouter sur Freesound</a></p>
+  </div>
+  <div class="grid">
+
+
+    <!-- Exemple : Troupeau – ambiance calme (1) -->
+    <div class="sound-card">
+      <h3>Troupeau – ambiance calme (1)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/759896/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/759896/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+    <div class="sound-card">
+      <h3>Troupeau – ambiance calme (5)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/759900/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/759900/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+  
+    <div class="sound-card">
+      <h3>Braiment âne</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/759892/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/759892/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+  </div>
+
+  <!-- Geophonie -->
+  <h2 class="section-title" id="Géophonie">Geophonie</h2>
+ 
+    <!--  (1) -->
+    <div class="sound-card full-width-loups">
+     
+
+      <h3> Nuit d'orage dans le Dévoluy</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/740058/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/740058/" target="_blank">Ecouter sur Freesound</a></p>
+
+ <h3> Nuit d'orage sur le Vercors</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/753897/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/753897/" target="_blank">Ecouter sur Freesound</a></p>
+      
+    
+      <h3> Tempête sur le Vercors</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/751619/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/751619/" target="_blank">Ecouter sur Freesound</a></p>
+</div>
+
+      <div class="grid">
+    <div class="sound-card">
+      <h3> Passage d'eau dans une turbine (Vercors)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734536/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734536/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+     <div class="sound-card">
+      <h3> Grotte du Bournillon (Vercors)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734535/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734535/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+    <div class="sound-card">
+      <h3> Rivière de l'Eyrieux - Hydrophone (Ardèche)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725353/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725353/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+    <div class="sound-card">
+      <h3> Glace fondue - Glacière de Font d'Urle </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725340/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725340/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+        <div class="sound-card">
+      <h3> Glace fondue - Glacière de Corrençon en Vercors </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725341/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725341/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+        <div class="sound-card">
+      <h3> Gouttes percutent une goutière - <Saint-Laurent du Pape </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/724593/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/724593/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+</div>
+
+<!-- Paysages sonores -->
+  <h2 class="section-title" id="Paysages sonores">Paysages sonores</h2>
+ 
+<div class="sound-card full-width-loups">
+     
+
+      <h3> Ambiance sonore de la forêt du Peuil (Isère)</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734530/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734530/" target="_blank">Ecouter sur Freesound</a></p>
+
+</div>
+
+<div class="sound-card full-width-loups">
+     
+
+      <h3>Souffles à Port Leucate</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725103/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/725103/" target="_blank">Ecouter sur Freesound</a></p>
+
+</div>
+ <div class="grid">
+<div class="sound-card">
+     
+
+      <h3> Réveil du village de Sigonce</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/734740/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/734740/" target="_blank">Ecouter sur Freesound</a></p>
+</div>
+<div class="sound-card">
+     
+
+      <h3> Vagues, proches, océan Atlantique</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/724583/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/people/Sacha.Julien/sounds/724583/" target="_blank">Ecouter sur Freesound</a></p>
+</div>
+</div>
+
+<!-- autre sons -->
+  <h2 class="section-title" id="autres">Anthropophonie</h2>
+
+<div class="grid">
+
+         <div class="sound-card">
+      <h3>Dévoilage d'une jante de vélo - Chambéry</h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/725106/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/725106/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+     </div>
+
+     <div class="sound-card">
+      <h3>Station de Tram - Grenoble</h3>
+
+       <iframe src="https://freesound.org/embed/sound/iframe/726342/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/726342/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+    </div>
+
+    <div class="sound-card">
+      <h3>Netoyage d'un pétrin - Lozère </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/727395/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/727395/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+     </div>
+
+     <div class="sound-card">
+      <h3>Eolienne Tripalium - Lozère </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/727392/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/727392/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+     </div>
+
+     
+
+     <div class="sound-card">
+      <h3>Braises dans un four à pain - Lozère </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/727387/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/727387/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+     </div>
+
+       <div class="sound-card">
+      <h3>Câble téléphérique - Grenoble </h3>
+      <iframe src="https://freesound.org/embed/sound/iframe/726352/simple/large/" scrolling="yes"></iframe>
+      <p class="credits"><a href="https://freesound.org/embed/sound/iframe/726352/simple/large/" target="_blank">Ecouter sur Freesound</a></p>
+     </div>
+     </div>
+  <h1>Propositions</h1>
+  <h2 class="section-title" id="Interventions">Interventions</h2>
+
+<h3 class="project-title">
+<h3> Un voyage sonore à la maison autonomie de Tullins </h3>
+<p class="atelier-text">
+  Invitation par le photographe <a href="https://arnaudauria.com/modernes-a-la-campagne" target="_blank">Arnaud Auria</a> dans le cadre de son projet "Modernes à la 
+campagne" pour le volet "Trois transmissions" : <em> "Trois transmission étudie la manière dont les exploitations nucicoles
+ passent de mains en mains au fil des générations. Ce projet étudie trois cas de figure particuliers, avec trois approches distinctes (film 
+ documentaire, photo reportage, reportage participatif)".</em>
+</p>
+<p class="atelier-text">
+Durant cette intervention, les participant·es ont vécu un voyage sonore immobile et immersif. Le dispositif technique leur a permis de cheminer entres les 
+sons de l'océan, de places de marché de village, d'estives et de troupeaux, de brâme du cerf, jusqu'aux chemins enneigées des hauts plateaux du Vercors
+ </p>
+ 
+
+<div class="photo-grid">
+    <img src="images/Tullins1.jpg" alt="">
+
+    <img src="images/tullins06.jpg" alt="">
+
+  <img src="images/tullins3.jpg" alt="">
+
+  <img src="images/tullins7.jpg" alt="">
+  <img src="images/tullins5.jpg" alt="">
+  <img src="images/tullins2.jpg" alt="">
+
+© Nom de la photo / Nom de l'auteur
+</div>
+<h2 class="section-title" id="Ateliers">Ateliers</h2>
+  <h3>Festival Numéro Zero : Field recording et reconnaissance des chants des oiseaux</h3>
+
+<p class="atelier-text">
+  Lors de nos ateliers, les participants découvrent l’art de la prise de son en milieu naturel. 
+  Nous explorons les techniques d’enregistrement, l’écoute attentive des environnements sonores, 
+  et le partage de l’expérience entre les participants.
+</p>
+
+<p class="atelier-text">
+  Chaque atelier est conçu pour être pratique et immersif : nous utilisons des enregistreurs portables, 
+  des microphones et des techniques de captation adaptées aux différents types de sons.
+</p>
+
+<div class="photo-grid">
+    <img src="images/numerozero7.jpg" alt="Atelier d’écoute – prise de son collective">
+
+    <img src="images/numerozero5.jpg" alt="Atelier d’écoute – prise de son collective">
+
+  <img src="images/numerozero1.jpg" alt="Atelier d’écoute – prise de son collective">
+
+  <img src="images/numerozero3.jpg" alt="Atelier d’écoute – prise de son collective">
+  <img src="images/numerozero4.jpg" alt="Atelier d’écoute – prise de son collective">
+  <img src="images/numerozero6.jpg" alt="Atelier d’écoute – prise de son collective">
+</div>
+
+  <p class="atelier-text">
+  <h2>Formation Field recording pour Radio Campus !</h2>
+
+  </p>
+<div class="photo-grid">
+
+<img src="images/atelierworkshop5.jpg">
+<img src="images/atelierworkshop6.jpg"> 
+<img src="images/atelierworkshop7.jpg">
+<img src="images/atelierworkshop3.jpg">
+
+<img src="images/atelierworkshop8.jpg"> 
+</div>
+
+
+<h2 class="section-title" id="installations">Installations</h2>
+  <h3>Découverte sonore d'un jardin urbain (Grenoble)</h3>
+  
+<div class="qui-suis-je">
+  <img src="images/microforet1.jpg" class="portrait"> 
+  <div class="sound-card">
+ <div class="bio">
+  <p>
+<h2>Exposition sonore <em>in situ. </em> </h2> L’enjeu ici est de proposer d’écouter des facettes choisies du lieu, d’utiliser le matériel d’enregistrement comme des outils de décalage d’écoute voire de chercheur de son.
+Plusieurs dispositifs d'écoute sont proposés, installez-vous confortablement, et plongez dans l'écoute.
+
+<h3>Dispositif d’écoute 1 : L’écoute du vivant qui grouille </h3>
+Un microphone imperméable et très sensible (hydrophone) plongé dans un compost très actif. On réalise en direct et avec ses oreilles que la vie grouille, court , glisse…
+
+<h3>Dispositif d’écoute 2 : Un hydrophone plongé dans le puits </h3>
+Un hydrophone plongé dans un puits. Deux autres microphones (omnidirectionnels) sont disposés autour de la cavité du puits. Les trois microphones sont reliés à un enregistreur et à deux casques. L’hydrophone capte ce qu’il se passe dans l’eau du puits, les deux microphones omnidirectionnels captent la résonnance de la cavité. Les participant·es sont invité·s à faire fonctionner la poulie pour remplir le seau d’eau, à verser l’eau d’un arroser dans le puits et d’expérimenter les différents sons que l’on peut produire.
+
+<h3>Dispositif d’écoute 3 : Des micros dans les arbres. </h3>
+Deux microphones omnidirectionnels sont fixés en haut d’un arbre, dans les branches. Au pied de cet arbre des casques branchés à un enregistreur diffusent les sons captés tout là-haut. Les participants se retrouvent plongés à plusieurs mètres de hauteurs, dans le vent, le bruissement des feuilles et quelques chants d’oiseaux.
+
+<h3>Dispositif d’écoute 4 : Un micro dans la ruche </h3>
+
+Un microphone est branché à un système sans fil (HF). Il est introduit dans une ruche et relié à un enregistreur et des casques à une dizaine de mètres. Les participants se retrouvent immergé dans la ruche au cœur de la vie des abeilles. 
+
+<h3>Dispositif d’écoute 5  :  Des micros dans les hautes herbes </h3>
+Un couple stéréo constitué de deux microphones très sensibles installés dans les hautes herbes d’une zone laissée en friche. Là où l'œil ne distingue pas de vie, pouvons-nous capter des sons intéressants ?
+<h3>Dispositif d’écoute 6 :Un micro canon pour isoler les sons </h3> 
+
+Un microphone très directionnel est proposé. Les participants peuvent se promener dans le jardin pour cueillir les sons dénichés. 
+
+</p>
+
+
+ </div>
+</div>
+</div>
+
+  <h2 class="section-title" id="workshops">Workshops</h2>
+
+<div class="atelier-text">
+
+  Participation à la WinterSchool centre de recherche sur l’espace sonore et l’environnement urbain (CRESSON, 2025) 
+
+  
+<div class="photo-grid">
+
+
+    <img src="images/winterschool.jpg" >
+<img src="images/winterschool3.jpg" >
+<img src="images/winterschool1.jpeg" >
+ </div>
+ </div>
+
+ 
+  <h1>A propos</h1>
+
+  <h2 class="section-title" id="qui-suis-je">Qui suis-je</h2>
+
+<div class="qui-suis-je">
+
+  <img src="images/photo1.jpg" alt="Portrait de Sacha Julien" class="portrait">
+<div class="sound-card">
+  <div class="bio">
+    <p>
+    Je suis guide nature, audio-naturaliste et preneur de son. Passionné par l’étude et la compréhension du vivant, en particulier par l’évolution des chants des oiseaux, j’ai à cœur de partager et d’explorer ces mystères par une démarche qui mêle les approches scientifiques, sensibles et artistiques. 
+
+    </p>
+
+    <p>
+     Dans cette démarche, le son me sert de fil conducteur. L’écoute et la captation sonore sont de formidables moyens de plonger dans l’exploration du monde qui nous entoure. J’apprécie particulièrement les enregistrements de terrains, dits “field-recording” véritables affûts sonores, permettant de (re)constituer des paysages.. sonores ! 
+    </p>
+    <p>J’anime donc des balades à la découverte de l’environnement sonore, des ateliers de prises de son et des expositions sonores. 
+Le son offre aussi la possibilité de questionner le lien qu’il existe entre le monde vivant et les humains, par la récolte de témoignages oraux : quels échos ces chants d’oiseaux ont-ils dans notre langage, dans nos histoires et dans nos vies ?
+ </p>
+  </div>
+</div>
+</div>
+
+
+<h2 class="section-title" id="materiel">Matériel</h2>
+<h3>Du métériel professionnel de prise de son</h3>
+Pour tenter de s'aprocher la finesse et a richesse du vivant, j'utilise du matériel professionnel. Bien souvent, je me sers de couples stéréophoniques
+dans différentes configurations : Blumlein, mid-side, ORTF. Ils sont associés à des protections contre le vent et connectés à des enregistreurs numériques.
+
+<h3>Du métériel pédagogique de prise de son</h3>
+<p class="atelier-text">
+Ce matériel a vocation à être manipulé par le public pour explorer la pratique de la prise de son.
+Divers microphones pour différentes configurations : 
+Une parabole, des microphone très directionnels, des hydrophones, des microphones contact, des microphones de repaortages...
+</p>
+
+<div class="photo-grid">
+
+
+    <img src="images/setup3.jpg" >
+<img src="images/setup11.jpg" >
+<img src="images/setup9.jpg" >
+    <img src="images/setup1.jpg" >
+
+<img src="images/setup10.jpg" >
+
+    <img src="images/setup4.jpg" >
+
+
+
+</div>
+
+<h2 class="section-title" id="contact">Contact</h2>
+
+<section class="contact-section">
+  <p>
+    Vous pouvez m'écrire par email : 
+    <a href="mailto:sacha.julien@protonmail.me">sacha.julien@protonmail.me</a>
+  </p>
+</section>
+
+
+
+</main>
+ <footer>
+    © 2026 Sacha Julien — Cueilleur de sons
+  </footer>
+</div>
+
+</body>
